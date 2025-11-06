@@ -14,7 +14,7 @@ const Navigation = () => {
     <nav className="navegacion">
       <Link className={isActive('/')} to="/">novedades</Link>
       <Link className={isActive('/vender')} to="/vender">Vender</Link>
-      <Link className={isActive('/vendedores')} to="/vendedores">Vendedores</Link>
+      <Link className={isActive('/vendedores')} to="/vendedores">Nosotros</Link>
     </nav>
   );
 };

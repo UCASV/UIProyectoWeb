@@ -13,7 +13,7 @@ const ProductSlider = () => {
       text: "Desde la comodidad de tu casa.",
       cta: "Explora ahora",
       bgClass: "bg-verde",
-      image: "imagenes/BULOVAWATCH.jpg",
+      image: "images/fondoJoyas.jpg",
       alt: "Chica con bolso"
     },
     {
@@ -22,7 +22,7 @@ const ProductSlider = () => {
       text: "Joyas únicas en oro y plata.",
       cta: "Ver colección",
       bgClass: "bg-vino",
-      image: "imagenes/ANILLOSLIDER.jpg",
+      image: "images/Elegancia.jpg",
       alt: "Collar dorado"
     },
     {

@@ -131,25 +131,6 @@ const ProductPage = () => {
     },
     7: {
       id: 7,
-      name: "Camisa casual premium",
-      price: 20.00,
-      originalPrice: 30.00,
-      discount: 33,
-      image: "imagenes/camisa.webp",
-      description: "Camisa de algodón 100% para uso casual. Corte moderno, costuras reforzadas y disponible en múltiples tallas y colores. Perfecta para el día a día.",
-      shortDescription: "Quis gravida metus vehicula nec. Donec interdum ultricies diam, congue dictum libero auctor quis.",
-      isNew: true,
-      stock: 10,
-      category: "ropa",
-      specifications: {
-        material: "Algodón 100%",
-        tallas: "S, M, L, XL",
-        cuidados: "Lavable a máquina",
-        origen: "Importado"
-      }
-    },
-    8: {
-      id: 8,
       name: "Set de pulseras artesanales",
       price: 12.00,
       originalPrice: 18.00,
@@ -167,8 +148,8 @@ const ProductPage = () => {
         origen: "Hecho a mano"
       }
     },
-    9: {
-      id: 9,
+    8: {
+      id: 8,
       name: "Aritos de oro clásicos",
       price: 40.00,
       originalPrice: 50.00,
@@ -186,8 +167,8 @@ const ProductPage = () => {
         certificado: "Incluido"
       }
     },
-    10: {
-      id: 10,
+    9: {
+      id: 9,
       name: "Arito Tanjiro Kamado",
       price: 18.00,
       originalPrice: 25.00,
@@ -205,8 +186,8 @@ const ProductPage = () => {
         garantia: "Contra defectos"
       }
     },
-    11: {
-      id: 11,
+    10: {
+      id: 10,
       name: "Collar negro misterioso",
       price: 38.00,
       originalPrice: 48.00,
@@ -224,8 +205,8 @@ const ProductPage = () => {
         estilo: "Gótico"
       }
     },
-    12: {
-      id: 12,
+    11: {
+      id: 11,
       name: "Collar verde esmeralda",
       price: 55.00,
       originalPrice: 65.00,
@@ -243,8 +224,8 @@ const ProductPage = () => {
         cuidados: "Evitar químicos"
       }
     },
-    13: {
-      id: 13,
+    12: {
+      id: 12,
       name: "Pulsera cubana con cristales",
       price: 100.00,
       originalPrice: 130.00,
@@ -262,8 +243,8 @@ const ProductPage = () => {
         ocasión: "Especial"
       }
     },
-    14: {
-      id: 14,
+    13: {
+      id: 13,
       name: "Pulsera cubana clásica",
       price: 75.00,
       originalPrice: 95.00,

@@ -2,26 +2,26 @@ import React, { useState } from 'react';
 import ProductCard from './ProductCard';
 import './ProductGrid.css';
 
-const ProductGrid = () => {
-  const [filter, setFilter] = useState('todos');
-  const [sortBy, setSortBy] = useState('nombre');
 
-  const products = [
-    { id: 1, name: "Anillo de oro", price: 25, image: "imagenes/anillo.jpg", link: "/producto/1", category: "joyeria", isNew: true },
-    { id: 2, name: "Collar de oro", price: 55, image: "imagenes/collar.jpg", link: "/producto/2", category: "joyeria", isNew: false },
-    { id: 3, name: "pulsera", price: 35, image: "imagenes/pulsera.jpg", link: "/producto/3", category: "joyeria", isNew: true },
-    { id: 4, name: "Aritos", price: 15, image: "imagenes/aritos.jpg", link: "/producto/4", category: "joyeria", isNew: false },
-    { id: 5, name: "Reloj", price: 125, image: "imagenes/reloj.jpg", link: "/producto/5", category: "accesorios", isNew: true },
-    { id: 6, name: "Lentes", price: 30, image: "imagenes/lentes.jpg", link: "/producto/6", category: "accesorios", isNew: false },
-    { id: 7, name: "Camisa", price: 20, image: "imagenes/camisa.webp", link: "/producto/7", category: "ropa", isNew: true },
-    { id: 8, name: "Pulseras Variadas", price: 12, image: "imagenes/pulseras.png", link: "/producto/8", category: "accesorios", isNew: false },
-    { id: 9, name: "Arito de oro", price: 40, image: "imagenes/AritosOro.webp", link: "/producto/9", category: "joyeria", isNew: true },
-    { id: 10, name: "Arito Tanjiro", price: 18, image: "imagenes/aritosTanjiro.jpg", link: "/producto/10", category: "accesorios", isNew: true },
-    { id: 11, name: "Collar Negro", price: 38, image: "imagenes/CollarNegro.webp", link: "/producto/11", category: "joyeria", isNew: false },
-    { id: 12, name: "Collar Verde", price: 55, image: "imagenes/CollarVerde.jpg", link: "/producto/12", category: "joyeria", isNew: true },
-    { id: 13, name: "Pulsera cubana Cristal", price: 100, image: "imagenes/pulseraCubadaCristales.webp", link: "/producto/13", category: "joyeria", isNew: true },
-    { id: 14, name: "Pulsera cubana", price: 75, image: "imagenes/pulseraCubana.jpg", link: "/producto/14", category: "joyeria", isNew: false }
-  ];
+const ProductGrid = () => {
+ const [filter, setFilter] = useState('todos');
+ const [sortBy, setSortBy] = useState('nombre');
+
+ const products = [
+  { id: 1, name: "Anillo de oro", price: 25, image: "images/AnilloOro.jpg", link: "/producto/1", category: "joyeria", isNew: true },
+  { id: 2, name: "Collar de oro", price: 55, image: "images/CollarOro.jpg", link: "/producto/2", category: "joyeria", isNew: false },
+  { id: 3, name: "pulsera", price: 35, image: "images/Pulseras.jpg", link: "/producto/3", category: "joyeria", isNew: true },
+  { id: 4, name: "Aritos", price: 15, image: "images/Arete.jpg", link: "/producto/4", category: "joyeria", isNew: false },
+  { id: 5, name: "Reloj", price: 125, image: "imagenes/reloj.jpg", link: "/producto/5", category: "accesorios", isNew: true },
+  { id: 6, name: "Lentes", price: 30, image: "imagenes/lentes.jpg", link: "/producto/6", category: "accesorios", isNew: false },
+  { id: 7, name: "Pulseras Variadas", price: 12, image: "imagenes/pulseras.png", link: "/producto/7", category: "accesorios", isNew: false },
+  { id: 8, name: "Arito de oro", price: 40, image: "images/AreteOro.jpg", link: "/producto/8", category: "joyeria", isNew: true },
+  { id: 9, name: "Arito Tanjiro", price: 18, image: "imagenes/aritosTanjiro.jpg", link: "/producto/9", category: "accesorios", isNew: true },
+  { id: 10, name: "Collar Negro", price: 38, image: "imagenes/CollarNegro.webp", link: "/producto/10", category: "joyeria", isNew: false },
+  { id: 11, name: "Collar Verde", price: 55, image: "imagenes/CollarVerde.jpg", link: "/producto/11", category: "joyeria", isNew: true },
+  { id: 12, name: "Pulsera cubana Cristal", price: 100, image: "imagenes/pulseraCubadaCristales.webp", link: "/producto/12", category: "joyeria", isNew: true },
+  { id: 13, name: "Pulsera cubana", price: 75, image: "imagenes/pulseraCubana.jpg", link: "/producto/13", category: "joyeria", isNew: false }
+ ];
 
   // Filtrar productos
   const filteredProducts = filter === 'todos' 
@@ -44,8 +44,7 @@ const ProductGrid = () => {
   const categories = [
     { id: 'todos', name: 'Todos los productos' },
     { id: 'joyeria', name: 'Joyeria' },
-    { id: 'accesorios', name: 'Accesorios' },
-    { id: 'ropa', name: 'Ropa' }
+    { id: 'accesorios', name: 'Accesorios' }
   ];
 
   return (
