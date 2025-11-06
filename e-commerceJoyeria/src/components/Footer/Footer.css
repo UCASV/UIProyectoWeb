@@ -1,0 +1,159 @@
+/** Footer Responsivo **/
+.footer.alt {
+    background: var(--primarioOscuro);
+    color: var(--blanco);
+    padding: 2rem 1rem;
+    margin-top: 3rem;
+    border-top: 1px solid rgba(255,255,255,.06);
+}
+
+.footer.alt .footer__wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    display: grid;
+    gap: 1.5rem;
+}
+
+.footer.alt .footer__brand {
+    font-family: var(--fuentePrincipal);
+    font-size: clamp(1.8rem, 3vw, 3rem);
+    color: var(--secundario);
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+}
+
+.footer.alt .footer__brand:hover {
+    color: var(--blanco);
+}
+
+.footer.alt .footer__divider {
+    width: min(500px, 90%);
+    margin: 0 auto;
+    border: 0;
+    height: 1px;
+    background: linear-gradient(
+        to right,
+        transparent,
+        rgba(255,255,255,.16),
+        transparent
+    );
+}
+
+.footer.alt .footer__nav {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.footer.alt .chip {
+    display: inline-block;
+    padding: 0.8rem 1.2rem;
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 25px;
+    color: var(--blanco);
+    text-decoration: none;
+    font-size: 1.4rem;
+    opacity: 0.9;
+    transition: all 0.3s ease;
+}
+
+.footer.alt .chip:hover {
+    color: var(--primarioOscuro);
+    background: var(--secundario);
+    border-color: var(--secundario);
+    opacity: 1;
+    transform: translateY(-2px);
+}
+
+.footer.alt .footer__social {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.footer.alt .icon {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 10px;
+    color: #e8e8e8;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.footer.alt .icon:hover {
+    color: var(--primarioOscuro);
+    background: var(--secundario);
+    border-color: var(--secundario);
+    transform: translateY(-2px);
+}
+
+.footer.alt .footer__copy {
+    font-size: 1.2rem;
+    opacity: 0.6;
+    margin-top: 1rem;
+}
+
+/* Responsive para tablets */
+@media (max-width: 768px) {
+    .footer.alt {
+        padding: 1.5rem 1rem;
+    }
+    
+    .footer.alt .footer__wrap {
+        gap: 1rem;
+    }
+    
+    .footer.alt .chip {
+        padding: 0.6rem 1rem;
+        font-size: 1.3rem;
+    }
+    
+    .footer.alt .icon {
+        width: 35px;
+        height: 35px;
+    }
+}
+
+/* Responsive para móviles */
+@media (max-width: 480px) {
+    .footer.alt {
+        padding: 1rem;
+        margin-top: 2rem;
+    }
+    
+    .footer.alt .footer__nav {
+        gap: 0.5rem;
+    }
+    
+    .footer.alt .chip {
+        padding: 0.5rem 0.8rem;
+        font-size: 1.2rem;
+    }
+    
+    .footer.alt .footer__social {
+        gap: 0.8rem;
+    }
+    
+    .footer.alt .icon {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .footer.alt .footer__copy {
+        font-size: 1.1rem;
+    }
+}
+
+/* Soporte para modo oscuro */
+@media (prefers-color-scheme: dark) {
+    .footer.alt {
+        background: #2d2d2d;
+    }
+}

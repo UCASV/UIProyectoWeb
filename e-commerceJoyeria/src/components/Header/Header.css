@@ -13,6 +13,7 @@
     margin: 0;
 }
 
+/*Barra de Busqueda y Carrito*/
 #topbar {
     padding: 1rem 0;
 }
@@ -216,6 +217,6 @@
     #topbar .badge {
         min-width: 18px;
         height: 18px;
-        font-size: 0.9rem;
-}
+        font-size: 0.9rem;
+    }
 }
