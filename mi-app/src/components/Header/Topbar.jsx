@@ -16,22 +16,69 @@ export default function Topbar({ onCartClick }) {
 
   const navigate = useNavigate();
 
-  // --- Submit del formulario (YA NO NAVEGA) ---
+  // ============================================================
+  //   FUNCIÓN: OBTENER LA CANTIDAD DE ARTÍCULOS DEL CARRITO
+  // ============================================================
+  const obtenerCantidadArticulos = async (idUsuario) => {
+    if (!idUsuario) {
+      setCartCount(0);
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        setCartCount(0);
+        return;
+      }
+
+      const res = await fetch(
+        `${API_URL}/api/Carrito/cantidad-articulos/${encodeURIComponent(
+          idUsuario
+        )}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`, // 👈 NECESARIO PARA PASAR EL 401
+          },
+        }
+      );
+
+      if (!res.ok) {
+        setCartCount(0);
+        return;
+      }
+
+      const data = await res.json();
+      const numero = typeof data === "number" ? data : Number(data);
+
+      if (!Number.isNaN(numero)) {
+        setCartCount(numero);
+      } else {
+        setCartCount(0);
+      }
+    } catch (err) {
+      console.error("Error al obtener cantidad de artículos:", err);
+      setCartCount(0);
+    }
+  };
+
+  // ============================================================
+  //                BUSCADOR DE PRODUCTOS
+  // ============================================================
   const onSubmit = (e) => {
     e.preventDefault();
     if (!query.trim()) return;
     setShowResults(true);
   };
 
-  // --- Llamar Endpoint ASP.NET ---
   const buscarProductos = async (texto) => {
     try {
       setIsSearching(true);
 
       const res = await fetch(
-        `${API_URL}/api/Search/buscar?query=${encodeURIComponent(
-          texto
-        )}`
+        `${API_URL}/api/Search/buscar?query=${encodeURIComponent(texto)}`
       );
 
       if (!res.ok) {
@@ -52,7 +99,6 @@ export default function Topbar({ onCartClick }) {
     }
   };
 
-  // --- Efecto con debounce ---
   useEffect(() => {
     const texto = query.trim();
     if (!texto) {
@@ -61,14 +107,10 @@ export default function Topbar({ onCartClick }) {
       return;
     }
 
-    const id = setTimeout(() => {
-      buscarProductos(texto);
-    }, 350);
-
+    const id = setTimeout(() => buscarProductos(texto), 350);
     return () => clearTimeout(id);
   }, [query]);
 
-  // --- Al hacer click en un resultado ---
   const irAProducto = (producto) => {
     navigate(`/producto/${producto.idProducto}`, {
       state: { producto },
@@ -76,13 +118,9 @@ export default function Topbar({ onCartClick }) {
     setShowResults(false);
   };
 
-  // --- Ir a cuenta ---
-  const irCuenta = () => {
-    if (user) navigate("/login");
-    else navigate("/login");
-  };
-
-  // --- Verificar sesión/token ---
+  // ============================================================
+  //              VERIFICAR TOKEN / SESIÓN ACTUAL
+  // ============================================================
   useEffect(() => {
     const verificarToken = async () => {
       try {
@@ -101,6 +139,7 @@ export default function Topbar({ onCartClick }) {
 
         if (!token) {
           setUser(null);
+          setCartCount(0);
           return;
         }
 
@@ -109,9 +148,11 @@ export default function Topbar({ onCartClick }) {
           localStorage.removeItem("token");
           localStorage.removeItem("expiresAtUtc");
           setUser(null);
+          setCartCount(0);
           return;
         }
 
+        // Validamos el token en ASP.NET
         const res = await fetch(`${API_URL}/api/Usuarios/verify`, {
           method: "GET",
           headers: { Authorization: `Bearer ${token}` },
@@ -120,21 +161,38 @@ export default function Topbar({ onCartClick }) {
         if (res.ok) {
           const finalUser = parsedUser?.user || parsedUser || null;
           setUser(finalUser);
+
+          // 👇 APENAS SE VERIFICA EL TOKEN, CARGAMOS EL CARRITO
+          if (finalUser?.idUsuario) {
+            obtenerCantidadArticulos(finalUser.idUsuario);
+          }
         } else {
           localStorage.removeItem("user");
           localStorage.removeItem("token");
           localStorage.removeItem("expiresAtUtc");
           setUser(null);
+          setCartCount(0);
         }
       } catch (err) {
         console.error("Error al verificar token:", err);
         setUser(null);
+        setCartCount(0);
       }
     };
 
     verificarToken();
   }, []);
 
+  // Si el usuario cambia, recargamos carrito
+  useEffect(() => {
+    if (user?.idUsuario) {
+      obtenerCantidadArticulos(user.idUsuario);
+    }
+  }, [user]);
+
+  // ============================================================
+  //                     RENDER DEL TOPBAR
+  // ============================================================
   return (
     <section id="topbar" role="banner">
       <div className="topbar__wrap">
@@ -143,7 +201,7 @@ export default function Topbar({ onCartClick }) {
           MERCAUCA
         </a>
 
-        {/* --- Buscador --- */}
+        {/* Buscador */}
         <form
           className="topbar__search"
           role="search"
@@ -161,11 +219,8 @@ export default function Topbar({ onCartClick }) {
               if (results.length > 0) setShowResults(true);
             }}
             autoComplete="off"
-            autoCorrect="off"
-            spellCheck="false"
           />
 
-          {/* --- POPUP --- */}
           {showResults && (
             <div className="topbar__search-popup">
               {isSearching && (
@@ -213,16 +268,16 @@ export default function Topbar({ onCartClick }) {
           )}
         </form>
 
-        {/* --- Acciones derecha --- */}
+        {/* Acciones derechas */}
         <div className="topbar__actions">
-          {/* Carrito */}
+          {/* Icono carrito */}
           <button
             className="icon-btn"
             aria-label="Carrito"
             type="button"
             onClick={onCartClick}
           >
-            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22">
               <path
                 fill="currentColor"
                 d="M7 18a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm10 0a2 2 0 1 0 .001 3.999A2 2 0 0 0 17 18ZM6.2 6 5 2H2v2h2l3.6 9.59-1.35 3.14A2 2 0 0 0 8.1 19H19v-2H8.42a.25.25 0 0 1-.23-.15l.03-.1L9 15h7.55a2 2 0 0 0 1.85-1.23L21.88 8H19.7l-2.1 5H9.42L7.97 6H6.2Z"
@@ -237,7 +292,7 @@ export default function Topbar({ onCartClick }) {
               className="icon-btn"
               aria-label="Cuenta"
               type="button"
-              onClick={irCuenta}
+              onClick={() => navigate("/login")}
             >
               <svg viewBox="0 0 24 24" width="22" height="22">
                 <path
@@ -251,7 +306,7 @@ export default function Topbar({ onCartClick }) {
               {user
                 ? user.nombreUsuario
                   ? `Bienvenido, ${user.nombreUsuario} 👋`
-                  : `Bienvenido, ${user.idUsuario || "Usuario"} 👋`
+                  : `Bienvenido, ${user.idUsuario}`
                 : "No has iniciado sesión"}
             </span>
           </div>

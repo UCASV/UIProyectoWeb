@@ -16,12 +16,6 @@ export default function Navigation() {
       }>
         Vender
       </NavLink>
-
-      <NavLink to="/vendedores" className={({ isActive }) =>
-        `navegacion__enlace ${isActive ? "navegacion__enlace--activo" : ""}`
-      }>
-        Vendedores
-      </NavLink>
     </nav>
   );
 }
