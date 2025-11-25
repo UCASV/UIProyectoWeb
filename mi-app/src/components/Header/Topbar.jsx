@@ -16,9 +16,7 @@ export default function Topbar({ onCartClick }) {
 
   const navigate = useNavigate();
 
-  // ============================================================
-  //   FUNCIÓN: OBTENER LA CANTIDAD DE ARTÍCULOS DEL CARRITO
-  // ============================================================
+  //Cantidad de CARRITO
   const obtenerCantidadArticulos = async (idUsuario) => {
     if (!idUsuario) {
       setCartCount(0);
@@ -40,7 +38,7 @@ export default function Topbar({ onCartClick }) {
         {
           method: "GET",
           headers: {
-            Authorization: `Bearer ${token}`, // 👈 NECESARIO PARA PASAR EL 401
+            Authorization: `Bearer ${token}`, // JWT para pasar la autorizacion y no rebotar un 404
           },
         }
       );
@@ -64,9 +62,7 @@ export default function Topbar({ onCartClick }) {
     }
   };
 
-  // ============================================================
-  //                BUSCADOR DE PRODUCTOS
-  // ============================================================
+  // Barra de busqueda de productos
   const onSubmit = (e) => {
     e.preventDefault();
     if (!query.trim()) return;
@@ -118,9 +114,7 @@ export default function Topbar({ onCartClick }) {
     setShowResults(false);
   };
 
-  // ============================================================
-  //              VERIFICAR TOKEN / SESIÓN ACTUAL
-  // ============================================================
+  // Verificacion de token
   useEffect(() => {
     const verificarToken = async () => {
       try {
@@ -183,16 +177,14 @@ export default function Topbar({ onCartClick }) {
     verificarToken();
   }, []);
 
-  // Si el usuario cambia, recargamos carrito
+  // Recargar usuario si el carrito cambia
   useEffect(() => {
     if (user?.idUsuario) {
       obtenerCantidadArticulos(user.idUsuario);
     }
   }, [user]);
 
-  // ============================================================
-  //                     RENDER DEL TOPBAR
-  // ============================================================
+  //Topbar
   return (
     <section id="topbar" role="banner">
       <div className="topbar__wrap">
@@ -211,7 +203,7 @@ export default function Topbar({ onCartClick }) {
           <input
             type="search"
             name="q"
-            placeholder="Buscar joyas, anillos, collares…"
+            placeholder="Buscar productos..."
             aria-label="Buscar"
             value={query}
             onChange={(e) => setQuery(e.target.value)}

@@ -12,7 +12,7 @@ export function useProductos() {
 
     (async () => {
       try {
-        const resp = await fetch(`${API_URL}/api/MiPrimeraApi/novedades`, {
+        const resp = await fetch(`${API_URL}/api/Novedades/novedades`, {
           signal: ctrl.signal,
         });
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`);

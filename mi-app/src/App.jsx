@@ -11,6 +11,7 @@ import RegistroPage from "./components/Login/Registro.jsx";
 import Cart from "./components/Carrito/carrito.jsx";
 import ProductDetail from "./components/Productos/Producto_detalle.jsx";
 import AgregarProductos from "./components/Vender/AgregarProducto.jsx"
+import Footer from "./components/Footer/footer.jsx"
 
 function App() {
   const { pathname } = useLocation();
@@ -47,6 +48,7 @@ function App() {
             <>
               <Novedades />
               <PaginaNovedades />
+               <Footer />
             </>
           }
         />

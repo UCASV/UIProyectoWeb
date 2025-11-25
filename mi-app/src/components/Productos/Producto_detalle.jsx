@@ -20,7 +20,24 @@ export default function ProductoDetalle() {
   const [loading, setLoading] = useState(true);
   const [adding, setAdding] = useState(false);
 
-  // Datos 
+  // Popup bonito para mostrar mensajes (agregado / ya existe / error)
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
+  const [feedbackType, setFeedbackType] = useState("success"); // "success" | "error"
+  const [feedbackMessage, setFeedbackMessage] = useState("");
+
+  // Función rápida para disparar el popup
+  const showFeedback = (type, message) => {
+    setFeedbackType(type);
+    setFeedbackMessage(message);
+    setFeedbackOpen(true);
+
+    // Que el popup se cierre solo después de un ratito
+    setTimeout(() => {
+      setFeedbackOpen(false);
+    }, 2300);
+  };
+
+  // Traer detalle del producto desde la API
   useEffect(() => {
     const fetchDetalle = async () => {
       try {
@@ -38,7 +55,7 @@ export default function ProductoDetalle() {
           setDescripcion(data.descripcion);
         }
 
-        // llamda del objeto si se cargo del serach o del grid
+        // Si venimos directo del grid, armamos el objeto aquí
         if (!productoInicial) {
           setProducto({
             idProducto: data.idProducto,
@@ -68,26 +85,26 @@ export default function ProductoDetalle() {
   const unitPrice = Number(producto?.precio ?? 0);
   const totalPrice = unitPrice * cantidad;
 
-  // imagen con las varianbtes soportadas
+  // Imagen del producto (probamos varias propiedades por si viene de fuentes distintas)
   const imageSrc =
     producto?.fotoBase64 ||
     producto?.foto ||
     producto?.imgSrc || // viene del grid
     "";
 
-  // agregacion al carrito
+  // Agregar al carrito
   const handleAddToCart = async () => {
     if (!producto) return;
 
     try {
       setAdding(true);
 
-      // token
+      // Revisamos que haya usuario logueado
       const rawUser = localStorage.getItem("user");
       const rawToken = localStorage.getItem("token");
 
       if (!rawUser || !rawToken) {
-        // Si no hay token se dirige al login
+        // Si no hay sesión, lo mandamos al login
         navigate("/Login");
         return;
       }
@@ -101,7 +118,7 @@ export default function ProductoDetalle() {
 
       const finalUser = parsedUser?.user || parsedUser || null;
 
-      // DTO espera IdUsuario, no IdComprador
+      // El backend espera IdUsuario (o IdComprador, por si acaso)
       const idUsuario = finalUser?.idUsuario || finalUser?.idComprador;
 
       if (!idUsuario) {
@@ -110,27 +127,22 @@ export default function ProductoDetalle() {
         return;
       }
 
-      //
+      // Tomamos el id de variante o, en su defecto, el id del producto
       const idProductoVariante =
         producto.idProductoVariante ||
         producto.idProducto ||
         producto.id;
 
-      // 3) Precio total (unidad * cantidad)
+      // Precio total (unidad * cantidad)
       const precioTotal = totalPrice;
 
-      // 4) Payload según tu DTO:
-      // public string IdUsuario { get; set; }
-      // public string IdProductoVariante { get; set; }
-      // public int Cantidad { get; set; }
-      // public double Precio { get; set; }
-      // public string Moneda { get; set; }
+      // Payload para el endpoint de agregar al carrito
       const payload = {
-        idUsuario,          
-        idProductoVariante, 
-        cantidad,           
-        precio: precioTotal, 
-        moneda: "USD",      
+        idUsuario,          // dueño del carrito
+        idProductoVariante, // qué variante / producto estamos metiendo
+        cantidad,           // cuántos
+        precio: precioTotal,
+        moneda: "USD",
       };
 
       console.log("Payload agregar-articulo:", payload);
@@ -147,20 +159,36 @@ export default function ProductoDetalle() {
         }
       );
 
+      // Intentamos leer el cuerpo como JSON para agarrar el "mensaje"
+      let mensaje = "";
+      try {
+        const data = await res.json();
+        mensaje = data?.mensaje || "";
+      } catch {
+        // Si el backend no manda JSON o truena, no pasa nada, usamos mensajes genéricos
+      }
+
       if (!res.ok) {
-        console.error("Error al agregar al carrito:", res.status);
-        const errorText = await res.text().catch(() => "");
-        console.error("Detalle error:", errorText);
-        alert("No se pudo agregar al carrito.");
+        // Si la API responde error, mostramos el mensaje que venga o uno genérico
+        if (mensaje) {
+          // Por ejemplo: "El artículo ya está en el carrito."
+          showFeedback("error", mensaje);
+        } else {
+          showFeedback("error", "No se pudo agregar al carrito.");
+        }
         return;
       }
 
-
-
-      alert("Producto agregado al carrito ✅");
+      // Si todo salió bien, mensaje bonito
+      if (mensaje) {
+        // Puede ser "Artículo agregado correctamente." o algo similar
+        showFeedback("success", mensaje);
+      } else {
+        showFeedback("success", "Producto agregado al carrito ✅");
+      }
     } catch (err) {
       console.error("Error en handleAddToCart:", err);
-      alert("Error inesperado al agregar al carrito.");
+      showFeedback("error", "Ups, algo pasó al agregar al carrito.");
     } finally {
       setAdding(false);
     }
@@ -188,23 +216,32 @@ export default function ProductoDetalle() {
     return (
       <main className="product-page">
         <div className="pd-back-wrap">
-          <button
-            type="button"
-            className="pd-back-btn"
-            onClick={handleBack}
-          >
-            REGRESAR A TIENDA
-          </button>
+          <div className="pd-back-wrap">
+            <button
+              type="button"
+              className="pd-back-btn"
+              onClick={handleBack}
+            >
+              <span className="pd-back-icon">←</span>
+
+              <div className="pd-back-text">
+                <span className="pd-back-label">Regresar a tienda</span>
+                <span className="pd-back-sub">
+                  Seguir viendo más productos
+                </span>
+              </div>
+            </button>
+          </div>
         </div>
         <p className="pd-status">No se encontró el producto.</p>
       </main>
     );
   }
 
-  //vista principal
+  // Vista principal
   return (
     <main className="product-page">
-      {/* Barra superior */}
+      {/* Barra superior para regresar */}
       <div className="pd-back-wrap">
         <button
           type="button"
@@ -217,7 +254,7 @@ export default function ProductoDetalle() {
 
       {/* Layout principal */}
       <section className="pd-layout">
-        {/* Imagen */}
+        {/* Imagen grande del producto */}
         <div className="pd-image-card">
           {imageSrc && (
             <img
@@ -228,7 +265,7 @@ export default function ProductoDetalle() {
           )}
         </div>
 
-        {/* Info */}
+        {/* Info del producto */}
         <div className="pd-info">
           <h1 className="pd-title">
             {producto.tituloProducto || producto.nombre}
@@ -300,6 +337,24 @@ export default function ProductoDetalle() {
           </button>
         </div>
       </section>
+
+      {/* POPUP / TOAST PARA MENSAJES DEL CARRITO */}
+      {feedbackOpen && (
+        <div
+          className="pd-toast-overlay"
+          onClick={() => setFeedbackOpen(false)}
+        >
+          <div
+            className={`pd-toast pd-toast-${feedbackType}`}
+            onClick={(e) => e.stopPropagation()} // que no se cierre si hace click dentro
+          >
+            <div className="pd-toast-icon">
+              {feedbackType === "success" ? "✔" : "✖"}
+            </div>
+            <p className="pd-toast-message">{feedbackMessage}</p>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

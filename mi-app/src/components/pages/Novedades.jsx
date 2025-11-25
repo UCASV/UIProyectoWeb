@@ -18,7 +18,7 @@ export default function Destacados() {
 
   useEffect(() => {
     // Llama a tu endpoint (ajusta la URL según tu backend)
-    fetch(`${API_URL}/api/MiPrimeraApi/productosSlider/ProductoMediaSlider`)
+    fetch(`${API_URL}/api/Novedades/productosSlider`)
       .then(res => res.json())
       .then(data => setFotos(data))
       .catch(err => console.error("Error al cargar imágenes:", err));
