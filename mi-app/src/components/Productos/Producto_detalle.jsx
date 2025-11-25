@@ -1,6 +1,7 @@
 // src/components/Productos/Producto_detalle.jsx
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+const API_URL = import.meta.env.VITE_API_URL;
 import "./CSS/productDetail.css";
 
 export default function ProductoDetalle() {
@@ -23,7 +24,7 @@ export default function ProductoDetalle() {
   useEffect(() => {
     const fetchDetalle = async () => {
       try {
-        const res = await fetch(`https://localhost:7044/api/Productos/${id}`);
+        const res = await fetch(`${API_URL}/api/Productos/${id}`);
 
         if (!res.ok) {
           console.warn("Error al obtener detalle:", res.status);
@@ -135,7 +136,7 @@ export default function ProductoDetalle() {
       console.log("Payload agregar-articulo:", payload);
 
       const res = await fetch(
-        "https://localhost:7044/api/Carrito/agregar-articulo",
+        `${API_URL}/api/Carrito/agregar-articulo`,
         {
           method: "POST",
           headers: {

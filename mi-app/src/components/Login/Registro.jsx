@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+const API_URL = import.meta.env.VITE_API_URL;
 import "./Login.css";
 
 export default function Registro() {
@@ -36,7 +37,7 @@ export default function Registro() {
     };
 
     try {
-      const res = await fetch("https://localhost:7044/api/Usuarios/registro", {
+      const res = await fetch(`${API_URL}/api/Usuarios/registro`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),

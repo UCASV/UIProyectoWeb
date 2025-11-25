@@ -1,6 +1,7 @@
 // src/components/Topbar.jsx
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+const API_URL = import.meta.env.VITE_API_URL;
 import "./topbar.css";
 
 export default function Topbar({ onCartClick }) {
@@ -28,7 +29,7 @@ export default function Topbar({ onCartClick }) {
       setIsSearching(true);
 
       const res = await fetch(
-        `https://localhost:7044/api/Search/buscar?query=${encodeURIComponent(
+        `${API_URL}/api/Search/buscar?query=${encodeURIComponent(
           texto
         )}`
       );
@@ -77,7 +78,7 @@ export default function Topbar({ onCartClick }) {
 
   // --- Ir a cuenta ---
   const irCuenta = () => {
-    if (user) navigate("/AdminAccount");
+    if (user) navigate("/login");
     else navigate("/login");
   };
 
@@ -111,7 +112,7 @@ export default function Topbar({ onCartClick }) {
           return;
         }
 
-        const res = await fetch("https://localhost:7044/api/Usuarios/verify", {
+        const res = await fetch(`${API_URL}/api/Usuarios/verify`, {
           method: "GET",
           headers: { Authorization: `Bearer ${token}` },
         });

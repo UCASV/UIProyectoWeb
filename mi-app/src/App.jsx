@@ -10,6 +10,7 @@ import LoginPage from "./components/Login/Login";
 import RegistroPage from "./components/Login/Registro.jsx";
 import Cart from "./components/Carrito/carrito.jsx";
 import ProductDetail from "./components/Productos/Producto_detalle.jsx";
+import AgregarProductos from "./components/Vender/AgregarProducto.jsx"
 
 function App() {
   const { pathname } = useLocation();
@@ -21,7 +22,7 @@ function App() {
   const ocultarLayout =
     ruta.startsWith("/login") ||
     ruta.startsWith("/login/registro") ||
-    ruta.startsWith("/producto/");      
+    ruta.startsWith("/producto/");
 
   const [isCartOpen, setIsCartOpen] = useState(false);
   const openCart = () => setIsCartOpen(true);
@@ -49,6 +50,7 @@ function App() {
             </>
           }
         />
+        <Route path="/vender" element={<AgregarProductos />} />
 
         {/* Detalle de producto */}
         <Route path="/producto/:id" element={<ProductDetail />} />

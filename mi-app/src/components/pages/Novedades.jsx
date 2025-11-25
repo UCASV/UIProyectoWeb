@@ -2,6 +2,7 @@
 // Destacados.jsx
 import React, { useEffect, useId,useState, useRef } from "react";
 import "./CSS/Novedades.css";
+const API_URL = import.meta.env.VITE_API_URL;
 import { initDestacados } from "./JS/Novedades.js";
 
 export default function Destacados() {
@@ -17,7 +18,7 @@ export default function Destacados() {
 
   useEffect(() => {
     // Llama a tu endpoint (ajusta la URL según tu backend)
-    fetch("https://localhost:7044/api/MiPrimeraApi/productosSlider/ProductoMediaSlider")
+    fetch(`${API_URL}/api/MiPrimeraApi/productosSlider/ProductoMediaSlider`)
       .then(res => res.json())
       .then(data => setFotos(data))
       .catch(err => console.error("Error al cargar imágenes:", err));

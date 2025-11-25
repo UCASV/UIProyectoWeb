@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Login.css";
+const API_URL = import.meta.env.VITE_API_URL;
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
@@ -22,7 +23,7 @@ export default function Login() {
 
     try {
       // 👉 Usa tu endpoint de login que devuelve token
-      const res = await fetch("https://localhost:7044/api/usuarios/login", {
+      const res = await fetch(`${API_URL}/api/usuarios/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ idUsuario: idUsuario.trim(), password }),

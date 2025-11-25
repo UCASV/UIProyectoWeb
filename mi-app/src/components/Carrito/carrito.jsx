@@ -1,6 +1,7 @@
 // src/components/Carrito/CartPopup.jsx
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+const API_URL = import.meta.env.VITE_API_URL;
 import "./carrito.css";
 
 const formatPrice = (value) => value.toFixed(2) + "$";
@@ -50,7 +51,7 @@ export default function CartPopup({ open, onClose }) {
         }
 
         const res = await fetch(
-          `https://localhost:7044/api/Carrito/${usuario}`,
+          `${API_URL}/api/Carrito/${usuario}`,
           {
             method: "GET",
             headers: {
@@ -157,7 +158,7 @@ export default function CartPopup({ open, onClose }) {
 
       // Endpoint
       const res = await fetch(
-        `https://localhost:7044/api/Carrito/finalizar-compra/${usuario}`,
+        `${API_URL}/api/Carrito/finalizar-compra/${usuario}`,
         {
           method: "POST",
           headers: {
@@ -197,15 +198,17 @@ export default function CartPopup({ open, onClose }) {
         className="cart-modal"
         onClick={(e) => e.stopPropagation()}
       >
-        <button className="cart-close-btn" onClick={onClose}>
-          ×
-        </button>
 
         {/* HEADER */}
         <header className="cart-header">
-          <h2 className="cart-title">Tu Carrito</h2>
+          <div className="cart-header-left">
+            <span className="cart-badge-mercauca">MercaUca</span>
+            <h2 className="cart-title">Tu carrito</h2>
+            <p className="cart-subtitle">Revisa tus productos antes de confirmar tu pedido</p>
+          </div>
+
           <button className="cart-ghost-button" onClick={onClose}>
-            ←  Continuar Comprando
+            ← Seguir comprando
           </button>
         </header>
 
@@ -341,7 +344,7 @@ export default function CartPopup({ open, onClose }) {
             <div className="summary-row">
               <span>Envio</span>
               <span>
-                {shippingCost === 0 ? "Free" : formatPrice(shippingCost)}
+                {shippingCost === 0 ? "Gratis" : formatPrice(shippingCost)}
               </span>
             </div>
 

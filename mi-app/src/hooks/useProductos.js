@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { toDataUrlFromBase64 } from "../utils/img.js";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export function useProductos() {
   const [productos, setProductos] = useState([]);
@@ -11,7 +12,7 @@ export function useProductos() {
 
     (async () => {
       try {
-        const resp = await fetch("https://localhost:7044/api/MiPrimeraApi/novedades", {
+        const resp = await fetch(`${API_URL}/api/MiPrimeraApi/novedades`, {
           signal: ctrl.signal,
         });
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
